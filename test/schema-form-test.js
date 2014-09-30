@@ -2042,7 +2042,7 @@ describe('Schema form',function(){
 
     it('should enable you to create new decorator directives',function(){
       module(function(schemaFormDecoratorsProvider){
-        schemaFormDecoratorsProvider.createDecorator('foobar',{ 'foo':'/bar.html' },[angular.noop]);
+        schemaFormDecoratorsProvider.createDecorator('foobar',{ 'foo':'/bar.html' },[angular.noop], { className: 'bob' });
       });
 
       inject(function($rootScope,$compile,$templateCache){
@@ -2056,6 +2056,7 @@ describe('Schema form',function(){
         $rootScope.$apply();
         templateWithWrap.children().length.should.equal(1);
         templateWithWrap.children().is('foobar').should.be.true;
+        templateWithWrap.children().eq(0).hasClass('bob').should.be.true;
         templateWithWrap.children().eq(0).children().length.should.equal(1);
         templateWithWrap.children().eq(0).children().is('div').should.be.true;
         templateWithWrap.children().eq(0).children().hasClass('yes').should.be.true;

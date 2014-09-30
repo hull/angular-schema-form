@@ -155,7 +155,7 @@ angular.module('schemaForm').provider('schemaFormDecorators',
     return directive.mappings['default'];
   };
 
-  var createDirective = function(name) {
+  var createDirective = function(name, options) {
     $compileProvider.directive(name, ['$parse', '$compile', '$http', '$templateCache',
       function($parse,  $compile,  $http,  $templateCache) {
 
@@ -183,6 +183,10 @@ angular.module('schemaForm').provider('schemaFormDecorators',
                     /\$\$value\$\$/g,
                     'model' + (key[0] !== '[' ? '.' : '') + key
                   );
+
+                  if (options && options.className) {
+                  	element.addClass(options.className);
+                  }
                   element.html(template);
                   $compile(element.contents())(scope);
                 });
@@ -362,7 +366,7 @@ angular.module('schemaForm').provider('schemaFormDecorators',
    *                 if they return a string then that is used as the templateUrl. Rules come before
    *                 mappings.
    */
-  this.createDecorator = function(name, mappings, rules) {
+  this.createDecorator = function(name, mappings, rules, options) {
     directives[name] = {
       mappings: mappings || {},
       rules:    rules    || []
@@ -371,7 +375,7 @@ angular.module('schemaForm').provider('schemaFormDecorators',
     if (!directives[defaultDecorator]) {
       defaultDecorator = name;
     }
-    createDirective(name);
+    createDirective(name, options);
   };
 
   /**

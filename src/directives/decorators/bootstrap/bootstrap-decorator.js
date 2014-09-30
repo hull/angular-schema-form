@@ -28,7 +28,7 @@ angular.module('schemaForm').config(['schemaFormDecoratorsProvider', function(de
         return base + 'readonly.html';
       }
     }
-  ]);
+  ], { className: "row" });
 
   //manual use directives
   decoratorsProvider.createDirectives({
