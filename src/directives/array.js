@@ -46,8 +46,16 @@ angular.module('schemaForm').directive('sfArray', ['sfSelect', 'schemaForm', 'sf
             // section. Unless there is just one.
             var subForm = form.items[0];
             if (form.items.length > 1) {
-              subForm = {type: 'section', items: form.items};
+              subForm = {
+                type: 'section',
+                items: form.items.map(function(item){
+                  item.ngModelOptions = form.ngModelOptions;
+                  item.readonly = form.readonly;
+                  return item;
+                })
+              };
             }
+
           }
 
           // We ceate copies of the form on demand, caching them for
@@ -68,8 +76,8 @@ angular.module('schemaForm').directive('sfArray', ['sfSelect', 'schemaForm', 'sf
             var len = list.length;
             var copy = scope.copyWithIndex(len);
             schemaForm.traverseForm(copy, function(part) {
-              if (part.key && angular.isDefined(part.default)) {
-                sfSelect(part.key, scope.model, part.default);
+              if (part.key && angular.isDefined(part['default'])) {
+                sfSelect(part.key, scope.model, part['default']);
               }
             });
 
